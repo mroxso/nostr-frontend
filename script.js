@@ -1,19 +1,66 @@
 const socket = new WebSocket('wss://nostr.0x50.tech');
 
 socket.onopen = function(event) {
-    socket.send('["REQ", "1337", {"kinds": [1]}]');
+    socket.send('["REQ", "1337", {"kinds": [1,4]}]');
 };
 
 socket.onmessage = function(event) {
-    const responseContainer = document.getElementById('messages-container');
+    const responseContainer = document.getElementById('short-text-notes-container');
+    const dmContainer = document.getElementById('dm-container');
     const data = JSON.parse(event.data);
     if (data[0] === "EVENT") {
-        const content = data[2].content;
-        const pubkey = data[2].pubkey;
-        const pubkeyShortened = `${pubkey.slice(0, 3)}...${pubkey.slice(-3)}`;
-        const para = document.createElement('p');
-        // para.innerHTML = pubkeyShortened + ": " + content;
-        para.innerHTML = `<span class="pubkey">${pubkeyShortened}:</span> ${content}`;
-        responseContainer.insertBefore(para, responseContainer.firstChild);
+        // // responseContainer.innerHTML = data[2].kind;
+        if(data[2].kind === 1) {
+            const content = data[2].content;
+            const pubkey = data[2].pubkey;
+            const pubkeyShortened = `${pubkey.slice(0, 3)}...${pubkey.slice(-3)}`;
+            const createdAt = data[2].created_at;
+            const date = new Date(createdAt * 1000);
+            const formattedTime = date.toLocaleString();
+            const para = document.createElement('p');
+            // para.innerHTML = pubkeyShortened + ": " + content;
+            para.innerHTML = `<span class="createdAt">(${formattedTime})</span> <span class="pubkey">${pubkeyShortened}:</span> ${content}`;
+            // Start Copy & Paste Pubkey Functionality
+            const pubkeySpan = para.querySelector('.pubkey');
+            pubkeySpan.addEventListener('click', function() {
+                const tempInput = document.createElement('input');
+                tempInput.value = pubkey;
+                tempInput.setAttribute('readonly', '');
+                tempInput.style.position = 'absolute';
+                tempInput.style.left = '-9999px';
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+            // End Copy & Paste Pubkey Functionality
+            responseContainer.insertBefore(para, responseContainer.firstChild);
+        }
+        if(data[2].kind === 4) {
+            const content = data[2].content;
+            const pubkey = data[2].pubkey;
+            const pubkeyShortened = `${pubkey.slice(0, 3)}...${pubkey.slice(-3)}`;
+            const createdAt = data[2].created_at;
+            const date = new Date(createdAt * 1000);
+            const formattedTime = date.toLocaleString();
+            const para = document.createElement('p');
+            // para.innerHTML = pubkeyShortened + ": " + content;
+            para.innerHTML = `<span class="createdAt">(${formattedTime})</span> <span class="pubkey">${pubkeyShortened}:</span> ${content}`;
+            // Start Copy & Paste Pubkey Functionality
+            const pubkeySpan = para.querySelector('.pubkey');
+            pubkeySpan.addEventListener('click', function() {
+                const tempInput = document.createElement('input');
+                tempInput.value = pubkey;
+                tempInput.setAttribute('readonly', '');
+                tempInput.style.position = 'absolute';
+                tempInput.style.left = '-9999px';
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            });
+            // End Copy & Paste Pubkey Functionality
+            dmContainer.insertBefore(para, dmContainer.firstChild);
+        }
     }
 };
