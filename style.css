@@ -15,3 +15,7 @@ h1 {
 	height: 400px;
 	overflow-y: scroll;
 }
+
+.pubkey {
+    color: blue;
+}

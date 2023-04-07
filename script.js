@@ -12,7 +12,8 @@ socket.onmessage = function(event) {
         const pubkey = data[2].pubkey;
         const pubkeyShortened = `${pubkey.slice(0, 3)}...${pubkey.slice(-3)}`;
         const para = document.createElement('p');
-        para.innerHTML = pubkeyShortened + ": " + content;
+        // para.innerHTML = pubkeyShortened + ": " + content;
+        para.innerHTML = `<span class="pubkey">${pubkeyShortened}:</span> ${content}`;
         responseContainer.insertBefore(para, responseContainer.firstChild);
     }
 };
