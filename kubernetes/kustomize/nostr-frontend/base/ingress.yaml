@@ -1,0 +1,19 @@
+# Ingress Kubernetes File
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nostr-frontend
+  labels:
+    app: nostr-frontend
+spec:
+  rules:
+    - host: nostr-frontend.com # CHANGE ME!
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nostr-frontend
+                port:
+                  number: 80

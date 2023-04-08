@@ -1,0 +1,31 @@
+# Deployment Kubernetes object for the Nostr Frontend
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nostr-frontend
+  labels:
+    app: nostr-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nostr-frontend
+  template:
+    metadata:
+      labels:
+        app: nostr-frontend
+    spec:
+      containers:
+        - name: nostr-frontend
+          image: ghcr.io/mroxso/nostr-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          # env:
+          #   - name: RELAY_URL
+          #     value: "wss://nostr-relay.com"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
