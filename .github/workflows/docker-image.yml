@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/nostr-ui:latest
+          tags: ghcr.io/${{ github.repository_owner }}/nostr-frontend:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
