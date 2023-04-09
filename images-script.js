@@ -1,5 +1,5 @@
-// const socket = new WebSocket('wss://nostr.0x50.tech');
-const socket = new WebSocket('wss://relay.damus.io');
+const socket = new WebSocket('wss://nostr.0x50.tech');
+// const socket = new WebSocket('wss://relay.damus.io');
 
 socket.onopen = function(event) {
     socket.send('["REQ", "133742069", {"kinds": [1]}]');
