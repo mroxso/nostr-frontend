@@ -7,7 +7,7 @@ metadata:
     app: nostr-frontend
 spec:
   rules:
-    - host: nostr-frontend.com # CHANGE ME!
+    - host: ui.nostr.0x50.tech # CHANGE ME!
       http:
         paths:
           - path: /
