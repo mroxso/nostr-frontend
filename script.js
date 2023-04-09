@@ -1,5 +1,5 @@
-// const socket = new WebSocket('wss://nostr.0x50.tech');
-const socket = new WebSocket('wss://relay.damus.io');
+const socket = new WebSocket('wss://nostr.0x50.tech');
+// const socket = new WebSocket('wss://relay.damus.io');
 
 socket.onopen = function(event) {
     socket.send('["REQ", "133742069", {"kinds": [0,1,4,30023]}]');
@@ -41,11 +41,6 @@ socket.onmessage = function(event) {
             });
             // End Copy & Paste Pubkey Functionality
             metadataContainer.insertBefore(para, metadataContainer.firstChild);
-            
-            if(url.match(/^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi) != null) {
-                imagesContainer.insertBefore(para, imagesContainer.firstChild);
-            }
-        
         }
         if(data[2].kind === 1) {
             const content = data[2].content;
