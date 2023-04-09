@@ -17,9 +17,11 @@ socket.onmessage = function(event) {
             const imageUrlRegExp = /^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi
             const image_url = content.match(imageUrlRegExp);
             if(image_url != null) {
+                const p = document.createElement('p');
                 const img = document.createElement('img');
                 img.src = image_url[0];
-                imagesContainer.insertBefore(img, imagesContainer.firstChild);
+                p.innerHTML = img.outerHTML;
+                imagesContainer.insertBefore(p, imagesContainer.firstChild);
                 // console.log("Image URL: " + image_url[0]);
             }
         }
