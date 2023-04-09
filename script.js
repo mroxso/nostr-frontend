@@ -1,5 +1,5 @@
-const socket = new WebSocket('wss://nostr.0x50.tech');
-// const socket = new WebSocket('wss://relay.damus.io');
+// const socket = new WebSocket('wss://nostr.0x50.tech');
+const socket = new WebSocket('wss://relay.damus.io');
 
 socket.onopen = function(event) {
     socket.send('["REQ", "133742069", {"kinds": [0,1,4,30023]}]');
@@ -11,6 +11,7 @@ socket.onmessage = function(event) {
     const dmContainer = document.getElementById('dm-container');
     const infoContainer = document.getElementById('dm-container');
     const metadataContainer = document.getElementById('metadata-container');
+    const imagesContainer = document.getElementById('images-container');
     const data = JSON.parse(event.data);
     if (data[0] === "EVENT") {
         // // responseContainer.innerHTML = data[2].kind;
@@ -22,6 +23,7 @@ socket.onmessage = function(event) {
             const date = new Date(createdAt * 1000);
             const formattedTime = date.toLocaleString();
             const para = document.createElement('p');
+            const img = document.createElement('img');
             // para.innerHTML = pubkeyShortened + ": " + content;
             para.innerHTML = `<span class="createdAt">(${formattedTime})</span> <span class="pubkey">${pubkeyShortened}:</span> ${content}`;
             // Start Copy & Paste Pubkey Functionality
@@ -39,6 +41,11 @@ socket.onmessage = function(event) {
             });
             // End Copy & Paste Pubkey Functionality
             metadataContainer.insertBefore(para, metadataContainer.firstChild);
+            
+            if(url.match(/^http[^\?]*.(jpg|jpeg|gif|png|tiff|bmp)(\?(.*))?$/gmi) != null) {
+                imagesContainer.insertBefore(para, imagesContainer.firstChild);
+            }
+        
         }
         if(data[2].kind === 1) {
             const content = data[2].content;
